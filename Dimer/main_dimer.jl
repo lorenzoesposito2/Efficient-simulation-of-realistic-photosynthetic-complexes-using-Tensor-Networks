@@ -9,7 +9,7 @@ using ProgressMeter
 using LaTeXStrings
 include("gates.jl")
 
-#Here we define all the global parameters
+#Here we define all the global parameters, in general can be changed as is mentioned in the thesis
 
 global nsites::Int64 = 2; #Number of sites
 global nosc::Int64 = 12; #Number of oscilators of the bath

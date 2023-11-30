@@ -43,6 +43,8 @@ theta = atan(2*exchange[2][1]/(energies[1]-energies[2]))  #mixing angle
 
 [coups2[j] *= freqss[j] * sqrt(hr_factors[j]) for j in 1:nosc] 
 
+#------------------------------------------------------------------------------------------------------------------#
+
 #creating environment MPS
 bath = siteinds("HvOsc",nosc,dim=localDim,);
 bathMPS=chain(
@@ -69,6 +71,8 @@ rho_S2[2,1] = -sin(theta/2) * cos(theta/2)
 #total density matrix
 rho1 = rho_S1 .* fill(rho_E,nsites,nsites);
 
+#------------------------------------------------------------------------------------------------------------------#
+
 #Creating evolution gates
 locOscGates = getLocOscGates(timestep,freqss,temps,damps,bath);
 intGates = getEVIntGates2(timestep,coups2,bath,nsites);
@@ -87,6 +91,8 @@ C=[
       for j in 1: nsites]  
    for  i in 1:nsites]   
 for m in 1:nsites]
+
+#------------------------------------------------------------------------------------------------------------------#
 
 #Time evolution
 
@@ -153,6 +159,7 @@ T = Float64[]
 
 end 
 
+#------------------------------------------------------------------------------------------------------------------#
 
 #Plot
 default(size=(800,500), fontfamily="Computer Modern");
@@ -164,5 +171,5 @@ xlabel!(plt, "Time (fs) ");
 savefig("plot.pdf")
 
 #saving data
-#dati = DataFrame("t" => T, "rho_11" => pop1_1, "rho_22" => pop2_1, "rho_12" => broadcast(abs,coh12), "rho_21" => broadcast(abs,coh21))
-#CSV.write("data.csv",dati)
+dati = DataFrame("t" => T, "rho_11" => pop1_1, "rho_22" => pop2_1, "rho_12" => broadcast(abs,coh12), "rho_21" => broadcast(abs,coh21))
+CSV.write("data.csv",dati)

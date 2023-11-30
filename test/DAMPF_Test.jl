@@ -9,13 +9,13 @@ using ProgressMeter
 using LaTeXStrings
 include("gates.jl")
 
-#Here we define all the global parameters
+#Here we define all the global parameters, in general can be changed as is mentioned in the thesis
 
 global nsites::Int64 = 2; #Number of sites
 global nosc::Int64 = 2; #Number of oscilators of the bath
 global localDim::Int64 = 3; #Local dimensions of oscillators
 global maxBondDim = 8; #Bond dimension 
-global step::Int64 = 1000; #Number of step 
+global step::Int64 = 10000; #Number of step 
 global Cutoff::Float64 = 10e-10 #Limit values beyond which to neglect in the weighted sum of MPS
 
 #Useful conversions
@@ -41,6 +41,7 @@ temps *= temp;
 hr_factors = [0.133,0.133];
 [coups[i][2] *= freqss[i] * sqrt(hr_factors[i]) for i in 1:nsites]
 
+#------------------------------------------------------------------------------------------------------------------#
 
 #creating environment MPS
 bath = siteinds("HvOsc",nosc,dim=localDim,);
@@ -56,6 +57,9 @@ rho_S1[1,1] = 1.0; #sistem starting in the pure state e1
 
 #total density matrix
 rho1 = rho_S1 .* fill(rho_E,nsites,nsites);
+
+#------------------------------------------------------------------------------------------------------------------#
+
 
 #Creating evolution gates
 locOscGates = getLocOscGates(timestep,freqss,temps,damps,bath);
@@ -75,6 +79,9 @@ C=[
       for j in 1: nsites]  
    for  i in 1:nsites]   
 for m in 1:nsites]
+
+#------------------------------------------------------------------------------------------------------------------#
+
 
 #Time evolution
 
@@ -141,6 +148,7 @@ T = Float64[]
 
 end 
 
+#------------------------------------------------------------------------------------------------------------------#
 
 #Plot
 default(size=(800,500), fontfamily="Computer Modern");
